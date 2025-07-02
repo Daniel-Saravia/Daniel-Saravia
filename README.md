@@ -1,6 +1,7 @@
 ## Hi there 👋
 ### I love drone tech
-### personal site: [https://www.daniel-saravia.com](url)
+### Personal site: [daniel-saravia.com](https://www.daniel-saravia.com)
+
 Here are my GitHub metrics:
 
 ![GitHub Metrics](./github-metrics.svg)
