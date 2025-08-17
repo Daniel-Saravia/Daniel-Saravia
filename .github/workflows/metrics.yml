@@ -32,6 +32,8 @@ jobs:
           repositories_forks: yes
           repositories_affiliations: owner, collaborator, organization_member
           users_ignored: ""
-          commits_authoring: Daniel-Saravia, daniel-saravia
+          commits_authoring: Daniel-Saravia, daniel-saravia, sarav
           use_prebuilt_action: no
           experimental_features: --optimize
+          extras_css: |
+            h2.field { display: none; }
