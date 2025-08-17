@@ -27,3 +27,8 @@ jobs:
           base: ""
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
+          config_display: large
+          repositories_forks: yes
+          repositories_affiliations: owner, collaborator, organization_member
+          users_ignored: ""
+          commits_authoring: Daniel-Saravia, daniel-saravia
