@@ -1,12 +1,7 @@
-## Hi there 👋
+## Hello
 ### I love drone tech
 ### Personal site: [daniel-saravia.com](https://www.daniel-saravia.com)
-
-Here are my GitHub metrics:
-
-
-Here’s my calendar heatmap:
-
+Calendar heatmap:
 ![Yearly Calendar Heatmap](./metrics.plugin.isocalendar.fullyear.svg)
 
 ---
