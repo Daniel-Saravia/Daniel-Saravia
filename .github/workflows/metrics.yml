@@ -1,39 +1,31 @@
 name: Metrics
+
 on:
-  schedule: 
-    - cron: "0 0 * * *"  # Daily at midnight UTC
+  schedule:
+    - cron: "0 0 * * *"
   workflow_dispatch:
-  push: 
-    branches: ["master", "main"]
 
 jobs:
-  github-metrics:
+  metrics:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      # Main metrics
-      - uses: lowlighter/metrics@latest
+      - name: GitHub metrics
+        uses: lowlighter/metrics@latest
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.METRICS_TOKEN }}
           user: Daniel-Saravia
-          
-      # Isometric calendar
-      - uses: lowlighter/metrics@latest
+          template: classic
+          base: header, activity, community, repositories, metadata
+          filename: github-metrics.svg
+      - name: Isocalendar full year
+        uses: lowlighter/metrics@latest
         with:
-          filename: metrics.plugin.isocalendar.fullyear.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.METRICS_TOKEN }}
           user: Daniel-Saravia
+          template: classic
           base: ""
+          filename: metrics.plugin.isocalendar.fullyear.svg
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
-          config_display: large
-          config_timezone: America/New_York
-          repositories_forks: yes
-          repositories_affiliations: owner, collaborator, organization_member
-          users_ignored: ""
-          commits_authoring: Daniel-Saravia, daniel-saravia, sarav
-          use_prebuilt_action: no
-          experimental_features: --optimize
-          extras_css: |
-            h2.field { display: none; }
