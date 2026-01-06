@@ -4,7 +4,6 @@
 
 Here are my GitHub metrics:
 
-![GitHub Metrics](./github-metrics.svg)
 
 Here’s my calendar heatmap:
 
