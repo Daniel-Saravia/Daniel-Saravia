@@ -14,6 +14,8 @@ jobs:
       - name: Isocalendar full year
         uses: lowlighter/metrics@latest
         with:
+          # lowlighter/metrics needs a user-scoped GitHub token for GraphQL profile queries.
+          # The repository-scoped GITHUB_TOKEN is not sufficient for this workflow.
           token: ${{ secrets.METRICS_TOKEN }}
           user: Daniel-Saravia
           template: classic
