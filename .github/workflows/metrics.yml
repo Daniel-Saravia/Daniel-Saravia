@@ -11,15 +11,43 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Verify metrics token scopes
+        env:
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+        run: |
+          if [ -z "$METRICS_TOKEN" ]; then
+            echo "::error::METRICS_TOKEN is required. Use a classic token with read:user and repo scopes, and authorize SSO for any private orgs."
+            exit 1
+          fi
+
+          scopes="$(curl -fsSI \
+            -H "Authorization: Bearer $METRICS_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/user \
+            | tr -d '\r' \
+            | awk -F': ' 'tolower($1)=="x-oauth-scopes"{print $2}')"
+
+          echo "METRICS_TOKEN scopes: ${scopes:-unknown}"
+
+          if ! printf ',%s,' "$scopes" | grep -Eq ',[[:space:]]*(read:user|user)[[:space:]]*(,|$)'; then
+            echo "::error::METRICS_TOKEN must include read:user so the contribution calendar includes private/internal contributions."
+            exit 1
+          fi
+
+          if ! printf ',%s,' "$scopes" | grep -Eq ',[[:space:]]*repo[[:space:]]*(,|$)'; then
+            echo "::warning::METRICS_TOKEN does not include repo; private repository contributions may still be omitted."
+          fi
+
       - name: Isocalendar full year
         uses: lowlighter/metrics@latest
         with:
-          # lowlighter/metrics needs a user-scoped GitHub token for GraphQL profile queries.
-          # The repository-scoped GITHUB_TOKEN is not sufficient for this workflow.
+          # Private/internal contribution counts require read:user on METRICS_TOKEN.
+          # Use repo too, and authorize SSO for private organization repositories.
           token: ${{ secrets.METRICS_TOKEN }}
           user: Daniel-Saravia
           template: classic
           base: ""
+          repositories_affiliations: owner, collaborator, organization_member
           filename: metrics.plugin.isocalendar.fullyear.svg
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
